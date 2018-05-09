@@ -9,9 +9,12 @@ app.listen(80);
 
 // Events
 io.sockets.on('connection', (socket) => {
-  socket.on('eventServer', (data) => {
-    console.log(data);
-    socket.emit('eventClient', { data: 'Hello, client' });
+  socket.on('eventServer', () => {
+    let timer = 0;
+    setInterval(() => {
+      socket.emit('eventClient', timer);
+      timer += 1;
+    }, 1000);
   });
 
   socket.on('disconnect', () => {
