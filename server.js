@@ -1,6 +1,7 @@
 // Instances
 let io = require('socket.io');
 const http = require('http');
+const os = require('os-utils');
 
 // Init server
 const app = http.createServer();
@@ -10,10 +11,14 @@ app.listen(80);
 // Events
 io.sockets.on('connection', (socket) => {
   socket.on('eventServer', () => {
-    let timer = 0;
+    let cpuSendingData;
+
     setInterval(() => {
-      socket.emit('eventClient', timer);
-      timer += 1;
+      os.cpuUsage((currentCpuLoadValue) => {
+        cpuSendingData = currentCpuLoadValue;
+      });
+
+      socket.emit('eventClient', cpuSendingData);
     }, 1000);
   });
 
