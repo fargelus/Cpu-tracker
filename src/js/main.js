@@ -1,5 +1,7 @@
+const $ = require('jquery');
+
 $(() => {
-  const socket = io.connect('http://localhost');
+  const socket = window.io();
   socket.on('eventClient', (cpuVal) => {
     $('#value-container').text(cpuVal);
   });

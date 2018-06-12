@@ -1,11 +1,20 @@
 {
+  "scripts": {
+    "build:client": "watchify src/js/main.js -o public/bundle.js -v",
+    "build:server": "nodemon server.js",
+    "build": "npm run build:client & npm run build:server"
+  },
   "dependencies": {
+    "express": "^4.16.3",
+    "jquery": "^3.3.1",
     "os-utils": "^0.0.14",
     "socket.io": "^2.1.0"
   },
   "devDependencies": {
+    "browserify": "^16.2.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.11.0"
+    "eslint-plugin-import": "^2.11.0",
+    "watchify": "^3.11.0"
   }
 }

@@ -1,14 +1,29 @@
-// Instances
-let io = require('socket.io');
-const http = require('http');
+// Экспресс -> обертка над стандартным http сервером
+// Init server
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const port = 3000;
+
+// WebSockets
+let io = require('socket.io')(http);
 const os = require('os-utils');
 
-// Init server
-const app = http.createServer();
-io = io.listen(app);
-app.listen(80);
+// Как только клиент обратился к серверу =>
+// отсылаем нашу вьюху
+app.get('/', (request, response) => {
+  response.sendFile(`${__dirname}/index.html`);
+});
 
-// Events
+app.use(express.static('public'));
+
+// Все запросы на 3000 порт,
+// стандартный 80 требует root прав от ноды
+http.listen(port, () => {
+  console.log(`On ${port} running`);
+});
+
+// Socket events
 io.sockets.on('connection', (socket) => {
   socket.on('eventServer', () => {
     let cpuSendingData;
